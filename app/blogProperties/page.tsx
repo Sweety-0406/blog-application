@@ -1,10 +1,16 @@
+
 import getCurrentUser from "../action/getCurrentUser";
 import { getListings } from "../action/getListings";
 import EmptyState from "../components/EmptyState";
 import PropertiesClient from "./PropertiesClient";
 import prisma from "@/app/libs/prismadb";
-//@ts-ignore
-export default function PropertiesPage({ currentUser, listings }) {
+import { SafeListing, SafeUser } from "../types";
+
+interface Props {
+    currentUser: SafeUser | null;
+    listings: SafeListing[];
+}
+export default function PropertiesPage({ currentUser, listings }:Props) {
     if (!currentUser) {
         return (
             <EmptyState
