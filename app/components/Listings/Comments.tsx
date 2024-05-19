@@ -8,6 +8,7 @@ import toast from "react-hot-toast"
 import Input from "../Inputs/Input"
 import { IoSendSharp } from "react-icons/io5"
 import Avatar from "../Avatar"
+import { useState } from "react"
 interface commentListProps{
     listing : SafeListing 
     comment : (SafeComment & {
@@ -20,12 +21,14 @@ const CommentList:React.FC<commentListProps> =({
     comment
 })=>{
     const router = useRouter()
+    const [comments,setComments] = useState<SafeComment[]>([])
     const {
         register,
         handleSubmit,
         formState:{
             errors
-        }
+        },
+        reset
     }=useForm<FieldValues>({
         defaultValues:{
             comment:''
@@ -37,7 +40,8 @@ const CommentList:React.FC<commentListProps> =({
             const res =await axios.post(`/api/listings/${listing.id}/comments`,data)
             
             toast.success("comment is successfully submitted.")
-            
+            setComments([ res.data,...comments]);
+            reset()  ;
             router.refresh()
         } catch (error) {
             console.log(error)

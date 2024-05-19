@@ -14,8 +14,7 @@ export async function POST(request:Request) {
         title,
         description,
         imageSrc,
-        category,
-        roomCoun
+        category
     }=body;
 
     const listing = await prisma.listing.create({
